@@ -2124,7 +2124,7 @@ func _newContext(runtime *_runtime) {
 			},
 			value: _nativeFunctionObject{
 				name: "startsWith",
-				call: builtinString_localeStartsWith,
+				call: builtinString_startsWith,
 			},
 		}
 		endsWith_function := &_object{
@@ -2147,7 +2147,30 @@ func _newContext(runtime *_runtime) {
 			},
 			value: _nativeFunctionObject{
 				name: "endsWith",
-				call: builtinString_localeEndsWith,
+				call: builtinString_endsWith,
+			},
+		}
+		includes_function := &_object{
+			runtime:     runtime,
+			class:       "Function",
+			objectClass: _classObject,
+			prototype:   runtime.global.FunctionPrototype,
+			extensible:  true,
+			property: map[string]_property{
+				"length": _property{
+					mode: 0,
+					value: Value{
+						kind:  valueNumber,
+						value: 1,
+					},
+				},
+			},
+			propertyOrder: []string{
+				"length",
+			},
+			value: _nativeFunctionObject{
+				name: "includes",
+				call: builtinString_includes,
 			},
 		}
 		fromCharCode_function := &_object{
@@ -2356,6 +2379,13 @@ func _newContext(runtime *_runtime) {
 						value: endsWith_function,
 					},
 				},
+				"includes": _property{
+					mode: 0101,
+					value: Value{
+						kind:  valueObject,
+						value: includes_function,
+					},
+				},
 			},
 			propertyOrder: []string{
 				"length",
@@ -2383,6 +2413,7 @@ func _newContext(runtime *_runtime) {
 				"toLocaleUpperCase",
 				"startsWith",
 				"endsWith",
+				"includes",
 			},
 		}
 		runtime.global.String = &_object{

@@ -499,16 +499,23 @@ func builtinString_toLocaleUpperCase(call FunctionCall) Value {
 	return builtinString_toUpperCase(call)
 }
 
-func builtinString_localeStartsWith(call FunctionCall) Value {
+func builtinString_startsWith(call FunctionCall) Value {
 	checkObjectCoercible(call.runtime, call.This)
 	this := call.This.string()
 	that := call.Argument(0).string()
 	return toValue_bool(strings.HasPrefix(this, that))
 }
 
-func builtinString_localeEndsWith(call FunctionCall) Value {
+func builtinString_endsWith(call FunctionCall) Value {
 	checkObjectCoercible(call.runtime, call.This)
 	this := call.This.string()
 	that := call.Argument(0).string()
 	return toValue_bool(strings.HasSuffix(this, that))
+}
+
+func builtinString_includes(call FunctionCall) Value {
+	checkObjectCoercible(call.runtime, call.This)
+	this := call.This.string()
+	that := call.Argument(0).string()
+	return toValue_bool(strings.Contains(this, that))
 }
