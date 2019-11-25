@@ -498,3 +498,10 @@ func builtinString_toLocaleLowerCase(call FunctionCall) Value {
 func builtinString_toLocaleUpperCase(call FunctionCall) Value {
 	return builtinString_toUpperCase(call)
 }
+
+func builtinString_localeStartsWith(call FunctionCall) Value {
+	checkObjectCoercible(call.runtime, call.This)
+	this := call.This.string()
+	that := call.Argument(0).string()
+	return toValue_bool(strings.HasPrefix(this, that))
+}
